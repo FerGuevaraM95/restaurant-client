@@ -1,5 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
 export const NewMeal = () => {
 
@@ -11,6 +12,19 @@ export const NewMeal = () => {
       image: '',
       description: ''
     },
+    validationSchema: Yup.object({
+      name: Yup.string()
+                  .min(3, "El nombre del platillo debe tener al menos 3 caracteres")
+                  .required("El nombre del platillo es obligatorio"),
+      price: Yup.number()
+                  .min(1, "Debes agregar un número")
+                  .required("El precio es obligatorio"),          
+      category: Yup.string()
+                  .required("La categoría es obligatoria"),  
+      description: Yup.string()
+                  .min(10, "La descripción debe ser más larga")
+                  .required("La descripción es obligatoria"),                        
+    }),
     onSubmit: data => {
       console.log(data);
     }
@@ -86,7 +100,6 @@ export const NewMeal = () => {
                 placeholder="Descripción del Platillo"
                 value={formik.values.description}
                 onChange={formik.handleChange}
-
               ></textarea>
             </div>
 
