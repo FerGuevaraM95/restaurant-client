@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 
 import { FirebaseContext } from '../../firebase';
 
@@ -9,7 +10,8 @@ export const NewMeal = () => {
   // Context with Firebase operations
   const { firebase } = useContext(FirebaseContext);
 
-  console.log(firebase);
+  // Hook to redirect
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -32,8 +34,16 @@ export const NewMeal = () => {
                   .min(10, "La descripción debe ser más larga")
                   .required("La descripción es obligatoria"),                        
     }),
-    onSubmit: data => {
-      console.log(data);
+    onSubmit: meal => {
+      try {
+        meal.existence = true;
+        firebase.db.collection('products').add(meal)
+
+        // Redirect
+        navigate('/menu');
+      } catch (error) {
+        console.error(error);
+      }
     }
   });
 
@@ -69,7 +79,7 @@ export const NewMeal = () => {
               <input
                 id="price"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                type="numer"
+                type="number"
                 placeholder="$20"
                 min="0"
                 value={formik.values.price}
