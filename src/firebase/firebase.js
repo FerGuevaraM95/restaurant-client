@@ -1,12 +1,15 @@
 import app from 'firebase/app';
+import 'firebase/firestore';
+
 import { firebaseConfig } from './config';
 
 class Firebase {
   constructor() {
-    app.initializeApp(firebaseConfig);
     // if(!app.apps.length) {
-    //   app.initializeApp(firebaseConfig);
-    // }
+      //   app.initializeApp(firebaseConfig);
+      // }
+      app.initializeApp(firebaseConfig);
+      this.db = app.firestore();
   };
 };
 
