@@ -46,8 +46,16 @@ export const NewMeal = () => {
                 placeholder="Nombre del Platillo"
                 value={formik.values.name}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
+
+            {formik.touched.name && formik.errors.name ? (
+              <div className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700" role="alert">
+                <p className="font-bold">Hubo un error:</p>
+                <p>{formik.errors.name}</p>
+              </div>
+            ): null}
 
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">Precio</label>
@@ -59,8 +67,16 @@ export const NewMeal = () => {
                 min="0"
                 value={formik.values.price}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
+
+            {formik.touched.price && formik.errors.price ? (
+              <div className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700" role="alert">
+                <p className="font-bold">Hubo un error:</p>
+                <p>{formik.errors.price}</p>
+              </div>
+            ): null}
 
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Categoría</label>
@@ -70,6 +86,7 @@ export const NewMeal = () => {
                 name="category"
                 value={formik.values.category}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               >
                 <option value="">-- Seleccione --</option>
                 <option value="breakfast">Desayuno</option>
@@ -81,6 +98,13 @@ export const NewMeal = () => {
               </select>
             </div>
 
+            {formik.touched.category && formik.errors.category ? (
+              <div className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700" role="alert">
+                <p className="font-bold">Hubo un error:</p>
+                <p>{formik.errors.category}</p>
+              </div>
+            ): null}
+
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">Imagen</label>
               <input
@@ -89,6 +113,7 @@ export const NewMeal = () => {
                 type="file"
                 value={formik.values.image}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               />
             </div>
 
@@ -100,8 +125,16 @@ export const NewMeal = () => {
                 placeholder="Descripción del Platillo"
                 value={formik.values.description}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
               ></textarea>
             </div>
+
+            {formik.touched.description && formik.errors.description ? (
+              <div className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700" role="alert">
+                <p className="font-bold">Hubo un error:</p>
+                <p>{formik.errors.description}</p>
+              </div>
+            ): null}
 
             <input
               type="submit"
