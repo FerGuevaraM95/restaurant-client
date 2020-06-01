@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
+
 import { FirebaseContext } from '../../firebase';
+
+import { Meal } from '../ui/Meal';
 
 export const Menu = () => {
 
@@ -27,12 +30,25 @@ export const Menu = () => {
     setMeals(meals);
   };
 
+  const renderMeals = (meals) => {
+    return meals.map(meal => (
+      <Meal
+        key={meal.id}
+        meal={meal}
+      />
+    ))
+  }
+
   return (
     <>
       <h1 className="text-3xl font-light mb-4">Menú</h1>
       <Link to="nuevo-platillo" className="mb-5 p-2 bg-blue-700 inline-block text-white font-bold uppercase">
         Agregar platillo
       </Link>
+
+      <section>
+        {renderMeals(meals)}
+      </section>
     </>
   );
-}
+};
