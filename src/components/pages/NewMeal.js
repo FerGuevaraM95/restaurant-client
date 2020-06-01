@@ -1,17 +1,16 @@
-import React, { useContext, useState } from 'react';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useNavigate } from "react-router-dom";
 import FileUploader from "react-firebase-file-uploader";
 
-import { FirebaseContext } from '../../firebase';
+import { FirebaseContext } from "../../firebase";
 
 export const NewMeal = () => {
-
   // State for images
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [urlImage, setUrlImage] = useState('');
+  const [urlImage, setUrlImage] = useState("");
 
   // Context with Firebase operations
   const { firebase } = useContext(FirebaseContext);
@@ -23,39 +22,37 @@ export const NewMeal = () => {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      price: '',
-      category: '',
-      image: '',
-      description: ''
+      name: "",
+      price: "",
+      category: "",
+      image: "",
+      description: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
-                  .min(3, "El nombre del platillo debe tener al menos 3 caracteres")
-                  .required("El nombre del platillo es obligatorio"),
+        .min(3, "El nombre del platillo debe tener al menos 3 caracteres")
+        .required("El nombre del platillo es obligatorio"),
       price: Yup.number()
-                  .min(1, "Debes agregar un número")
-                  .required("El precio es obligatorio"),          
-      category: Yup.string()
-                  .required("La categoría es obligatoria"),  
+        .min(1, "Debes agregar un número")
+        .required("El precio es obligatorio"),
+      category: Yup.string().required("La categoría es obligatoria"),
       description: Yup.string()
-                  .min(10, "La descripción debe ser más larga")
-                  .required("La descripción es obligatoria"),                        
+        .min(10, "La descripción debe ser más larga")
+        .required("La descripción es obligatoria"),
     }),
-    onSubmit: meal => {
+    onSubmit: (meal) => {
       try {
         meal.existence = true;
         meal.image = urlImage;
-        firebase.db.collection('products').add(meal)
+        firebase.db.collection("products").add(meal);
 
         // Redirect
-        navigate('/menu');
+        navigate("/menu");
       } catch (error) {
         console.error(error);
       }
-    }
+    },
   });
-
 
   // Methods for images
   const handleUploadStart = () => {
@@ -66,7 +63,6 @@ export const NewMeal = () => {
   const handleUploadError = (error) => {
     setUploading(false);
     console.error(error);
-
   };
 
   const handleUploadSuccess = async (name) => {
@@ -74,11 +70,10 @@ export const NewMeal = () => {
     setUploading(false);
 
     // set Url from firebase
-    const url = await firebase
-            .storage
-            .ref("products")
-            .child(name)
-            .getDownloadURL();
+    const url = await firebase.storage
+      .ref("products")
+      .child(name)
+      .getDownloadURL();
     console.log(url);
     setUrlImage(url);
   };
@@ -96,9 +91,14 @@ export const NewMeal = () => {
         <div className="w-full max-w-3xl">
           <form onSubmit={formik.handleSubmit}>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="name">Nombre</label>
-              <input 
-                id="name" 
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="name"
+              >
+                Nombre
+              </label>
+              <input
+                id="name"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 type="text"
                 placeholder="Nombre del Platillo"
@@ -109,14 +109,22 @@ export const NewMeal = () => {
             </div>
 
             {formik.touched.name && formik.errors.name ? (
-              <div className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700" role="alert">
+              <div
+                className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700"
+                role="alert"
+              >
                 <p className="font-bold">Hubo un error:</p>
                 <p>{formik.errors.name}</p>
               </div>
-            ): null}
+            ) : null}
 
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="price">Precio</label>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="price"
+              >
+                Precio
+              </label>
               <input
                 id="price"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -130,14 +138,22 @@ export const NewMeal = () => {
             </div>
 
             {formik.touched.price && formik.errors.price ? (
-              <div className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700" role="alert">
+              <div
+                className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700"
+                role="alert"
+              >
                 <p className="font-bold">Hubo un error:</p>
                 <p>{formik.errors.price}</p>
               </div>
-            ): null}
+            ) : null}
 
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Categoría</label>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="category"
+              >
+                Categoría
+              </label>
               <select
                 id="category"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -157,14 +173,22 @@ export const NewMeal = () => {
             </div>
 
             {formik.touched.category && formik.errors.category ? (
-              <div className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700" role="alert">
+              <div
+                className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700"
+                role="alert"
+              >
                 <p className="font-bold">Hubo un error:</p>
                 <p>{formik.errors.category}</p>
               </div>
-            ): null}
+            ) : null}
 
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="image">Imagen</label>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="image"
+              >
+                Imagen
+              </label>
               <FileUploader
                 accept="image/*"
                 id="image"
@@ -178,8 +202,27 @@ export const NewMeal = () => {
               />
             </div>
 
+            {uploading && (
+              <div className="h-12 relative w-full border">
+                <div className="bg-green-500 absolute left-0 top-0 text-white px-2 text-sm h-12   flex item-center" style={{ width: `${progress}%` }}>
+                  <p>{progress} %</p>
+                </div>
+              </div>
+            )}
+
+            {urlImage && (
+              <p className="bg-green-500 text-white p-3 text-center my-5">
+                La imagen se subió correctamente
+              </p>
+            )}
+
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">Descripción</label>
+              <label
+                className="block text-gray-700 text-sm font-bold mb-2"
+                htmlFor="description"
+              >
+                Descripción
+              </label>
               <textarea
                 id="description"
                 className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline h-40"
@@ -191,11 +234,14 @@ export const NewMeal = () => {
             </div>
 
             {formik.touched.description && formik.errors.description ? (
-              <div className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700" role="alert">
+              <div
+                className="mb-5 p-4 bg-red-100 border-l-4 border-red-500 text-red-700"
+                role="alert"
+              >
                 <p className="font-bold">Hubo un error:</p>
                 <p>{formik.errors.description}</p>
               </div>
-            ): null}
+            ) : null}
 
             <input
               type="submit"
@@ -207,4 +253,4 @@ export const NewMeal = () => {
       </div>
     </>
   );
-}
+};
