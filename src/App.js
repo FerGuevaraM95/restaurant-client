@@ -19,9 +19,9 @@ function App() {
         <Sidebar />
         <div className="md:w-3/5 xl:w-4/5 p-6">
           <Routes>
-            <Route exact path="/" element={<Orders />} />
-            <Route exact path="/menu" element={<Menu />} />
-            <Route exact path="/nuevo-platillo" element={<NewMeal />} />
+            <Route path="/" element={<Orders />} />
+            <Route path="/menu" element={<Menu />} />
+            <Route path="/nuevo-platillo" element={<NewMeal />} />
           </Routes>
         </div>
       </div>
