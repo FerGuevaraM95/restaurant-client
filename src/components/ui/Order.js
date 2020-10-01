@@ -53,6 +53,13 @@ export const Order = ({ order }) => {
             </button>
           </div>
         )}
+
+        {!!order.deliveryTime && (
+          <div className="text-gray-700">
+            Tiempo de entrega: 
+            <span className="font-bold"> {order.deliveryTime} Minutos</span>
+          </div>
+        )}
       </div>
     </div>
   );
