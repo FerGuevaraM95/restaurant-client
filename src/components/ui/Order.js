@@ -19,6 +19,18 @@ export const Order = ({ order }) => {
     }
   }
 
+  const completeOrder = (id) => {
+    try {
+      firebase.db.collection('orders')
+        .doc(id)
+        .update({
+          completed: true
+        })
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <div className="sm:w-1/2 lg:1/3 px-2 mb-4">
       <div className="p-3 shadow-md bg-white">
@@ -55,10 +67,19 @@ export const Order = ({ order }) => {
         )}
 
         {!!order.deliveryTime && (
-          <div className="text-gray-700">
+          <p className="text-gray-700">
             Tiempo de entrega: 
             <span className="font-bold"> {order.deliveryTime} Minutos</span>
-          </div>
+          </p>
+        )}
+
+        {!order.completed && !!order.deliveryTime && (
+          <button type="button" 
+          className="bg-blue-800 hover:bg-blue-700 w-full mt-5 p-2 text-white uppercase font-bold"
+          onClick={() => completeOrder(order.id)}
+          >
+            Marcar como lista
+          </button>
         )}
       </div>
     </div>
